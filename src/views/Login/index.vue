@@ -1,60 +1,63 @@
 <template>
   <div class="login-container">
-    <el-form :model="user" :rules="rules" ref="ruleForm" class="demo-ruleForm">
+    <el-form :model="user" :rules="fromRules" ref="ruleForm" class="demo-ruleForm">
       <h1 class="login-title">某某后台管理系统</h1>
       <el-form-item prop="mobile">
         <el-input placeholder="请输入手机号" v-model="user.mobile"></el-input>
       </el-form-item>
-      <el-form-item >
+      <el-form-item prop="code">
         <el-input placeholder="请输入验证码" v-model="user.code"></el-input>
       </el-form-item>
-      <el-form-item class="login-clause">
-        <el-checkbox v-model="checked">我已阅读并同意用户协议和隐私条款</el-checkbox>
+      <el-form-item class="login-clause" prop="agree">
+        <el-checkbox v-model="user.agree">我已阅读并同意用户协议和隐私条款</el-checkbox>
       </el-form-item>
       <el-form-item>
-        <el-button class="login_bat" :loading="loginLoading" type="primary" @click="onLogin('ruleForm')">登陆</el-button>
+        <el-button class="login_bat" :loading="loginLoading" type="primary" @click="onLogin()">登陆</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 <script>
-import axios from '@/utils/axios'
+import { loginUser } from '@/api/user'
 export default {
   name: 'LoginIndex',
   data () {
     return {
       user: {
         mobile: '13911111111',
-        code: '246810'
+        code: '246810',
+        agree: false
       },
-      checked: false,
       loginLoading: false,
-      rules: {
+      fromRules: {
         mobile: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
-          { min: 10, max: 11, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '手机号不能为空', trigger: 'blur' },
+          { pattern: /^1[3|5|7|8|9]\d{9}$/, message: '请输入正确的手机号', trigger: 'change' }
+        ],
+        code: [
+          { required: true, message: '验证码不能为空', trigger: 'blur' },
+          { pattern: /^\d{6}$/, message: '请输入正确的验证码格式', trigger: 'change' }
+        ],
+        agree: [
+          {
+            validator: (rule, value, callback) => {
+              console.log('判断规则', rule)
+              if (value) {
+                callback()
+              } else {
+                callback(new Error('请勾选同意用户协议'))
+              }
+            }
+          }
         ]
       }
     }
   },
   methods: {
-    onLogin () {
-      // this.$refs[formName].validate((valid) => {
-      //   if (valid) {
-      //     alert('submit!')
-      //   } else {
-      //     console.log('error submit!!')
-      //     return false
-      //   }
-      // })
+    // 被调用函数
+    login () {
       this.loginLoading = true// 按钮防抖动--请求期间禁用
-      const user = this.user
-      console.log('输出用户信息', user)
-      axios({
-        method: 'POST',
-        url: '/mp/v1_0/authorizations',
-        data: user
-      }).then(res => {
+      loginUser(this.user).then(res => {
         console.log(res)
         this.$message({
           message: '登陆成功',
@@ -66,11 +69,20 @@ export default {
         console.log('登陆失败', err)
         this.loginLoading = false
       })
+    },
+    // 事件方法
+    onLogin () {
+      this.$refs.ruleForm.validate(valid => {
+        if (!valid) {
+          return
+        }
+        this.login()
+      })
     }
   }
 }
 </script>
-<style  lang="less">
+<style scoped  lang="less">
 .login-container{
   position: fixed;
   top: 0;
@@ -96,6 +108,9 @@ export default {
     .login-clause{
       margin-top: -10px;
       margin-bottom: 10px;
+      /deep/ .el-form-item__error {
+        top: 70%;
+      }
     }
   }
 }
