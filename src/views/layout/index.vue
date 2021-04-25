@@ -2,10 +2,26 @@
     <div class="loyout-container">
         <el-container class="layout-container">
           <el-aside width="200px" class="aside">
-              <App-aside></App-aside>
+              <App-aside class="aside-menu"></App-aside>
           </el-aside>
           <el-container>
-              <el-header class="header">Header</el-header>
+              <el-header class="header">
+                  <div>
+                      <i class="el-icon-s-fold"></i>
+                      <span>源曦语观天有限公司</span>
+                  </div>
+                  <el-dropdown>
+                    <div class="avatar-wrap">
+                        <img class="avatar" :src="user.photo" />
+                        <span>{{user.name}}</span>
+                        <i class="el-icon-arrow-down el-icon--right"></i>
+                    </div>
+                    <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item>设置</el-dropdown-item>
+                      <el-dropdown-item>退出</el-dropdown-item>
+                    </el-dropdown-menu>
+                  </el-dropdown>
+              </el-header>
               <el-main class="main">
                   <router-view></router-view>
               </el-main>
@@ -15,6 +31,7 @@
 </template>
 <script>
 import AppAside from './components/aside'
+import { getUserProfile } from '@/api/user'
 export default {
   name: 'LayoutIndex',
   components: {
@@ -22,12 +39,23 @@ export default {
   },
   props: {},
   data () {
-    return { }
+    return {
+      user: ''
+    }
   },
   computed: {},
-  created () {},
+  created () {
+    this.loadUserProfile()
+  },
   mounted () {},
-  methods: { },
+  methods: {
+    loadUserProfile () {
+      getUserProfile().then(res => {
+        console.log('请求用户数据-填取用户信息', res)
+        this.user = res.data.data
+      })
+    }
+  },
   watch: {}
 }
 </script>
@@ -39,10 +67,28 @@ export default {
     left: 0;
     right: 0;
     .aside{
-        background: rgb(84, 92, 100);
+        .aside-menu{
+            height: 100%;
+        }
     }
     .header{
-        background: palegreen;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid black;
+        .el-dropdown-link {
+          cursor: pointer;
+        }
+        .avatar-wrap{
+            display: flex;
+            align-items: center;
+            .avatar{
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+        }
     }
     .main{
         background:khaki;

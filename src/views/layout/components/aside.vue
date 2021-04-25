@@ -1,5 +1,6 @@
 <template>
     <el-menu
+      class="nav-menu"
       default-active="/"
       background-color="#545c64"
       text-color="#fff"
@@ -15,11 +16,11 @@
         <span slot="title">内容管理</span>
       </el-menu-item>
       <el-menu-item index="/imagin">
-        <i class="el-icon-menu"></i>
+        <i class="iconfont iconimg"></i>
         <span slot="title">素材管理</span>
       </el-menu-item>
       <el-menu-item index="/publish">
-        <i class="el-icon-setting"></i>
+        <i class="iconfont iconpublish"></i>
         <span slot="title">发布文章</span>
       </el-menu-item>
       <el-menu-item index="/comment">
@@ -54,7 +55,15 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.el-menu {
-    border-right: none;
+// .el-menu {
+//     border-right: none;
+// }
+.nav-menu{
+    .iconfont{
+        width: 18px;
+        height: 18px;
+        margin-right: 10px;
+        padding-left: 5px;
+    }
 }
 </style>
