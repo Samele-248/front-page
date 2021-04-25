@@ -26,7 +26,7 @@ export default {
       user: {
         mobile: '13911111111',
         code: '246810',
-        agree: false
+        agree: true
       },
       loginLoading: false,
       fromRules: {
@@ -63,7 +63,11 @@ export default {
           message: '登陆成功',
           type: 'success'
         })
-        this.loginLoading = false
+        this.loginLoading = false // 登陆禁用关闭
+        this.$router.push('/') // 登陆成功，跳转首页
+        // this.$router.push({
+        //   name: 'home'
+        // })
       }).catch(err => {
         this.$message.error('登陆失败，手机号或者验证码错误')
         console.log('登陆失败', err)
