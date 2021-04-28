@@ -114,8 +114,6 @@ export default {
             }
         }
     }
-    .main{
-        background:khaki;
-    }
+    .main{}
 }
 </style>

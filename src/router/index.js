@@ -3,6 +3,12 @@ import VueRouter from 'vue-router'
 import Login from '@/views/Login'
 import Layout from '@/views/layout'
 import Home from '@/views/home'
+import Article from '@/views/article'
+import Imagin from '@/views/imagin'
+import Publish from '@/views/publish'
+import Comment from '@/views/comment'
+import Fans from '@/views/fans'
+import Settings from '@/views/settings'
 Vue.use(VueRouter)
 const routes = [
   {
@@ -19,9 +25,38 @@ const routes = [
         path: '',
         name: 'home',
         component: Home
+      },
+      {
+        path: '/article',
+        name: 'article',
+        component: Article
+      },
+      {
+        path: '/imagin',
+        name: 'imagin',
+        component: Imagin
+      },
+      {
+        path: '/publish',
+        name: 'publish',
+        component: Publish
+      },
+      {
+        path: '/comment',
+        name: 'comment',
+        component: Comment
+      },
+      {
+        path: '/fans',
+        name: 'fans',
+        component: Fans
+      },
+      {
+        path: '/settings',
+        name: 'settings',
+        component: Settings
       }
     ]
-
   }
 ]
 const router = new VueRouter({

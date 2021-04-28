@@ -1,19 +1,21 @@
 <template>
-    <div class=""></div>
+    <div class="settings-container">
+        个人设置
+    </div>
 </template>
 <script>
 // import 代称 from '地址'
 export default {
-  name: '',
+  name: 'Settings',
   components: {},
   props: {},
   data () {
     return { }
   },
-  computed: {}, // 计算属性
-  created () {}, // 生命周期挂载前
-  mounted () {}, // 生命周期运行前
-  methods: { }, // 函数方法处
+  computed: {},
+  created () {},
+  mounted () {},
+  methods: { },
   watch: {}
 }
 </script>
