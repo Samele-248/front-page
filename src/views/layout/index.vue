@@ -61,6 +61,7 @@ export default {
         this.user = res.data.data
       })
     },
+    // 点击退出
     onLogout () {
       this.$confirm('确定要退出嘛?', '退出提示', {
         confirmButtonText: '确定',

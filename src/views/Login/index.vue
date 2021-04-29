@@ -75,7 +75,7 @@ export default {
         this.loginLoading = false
       })
     },
-    // 事件方法
+    // 点击登陆
     onLogin () {
       this.$refs.ruleForm.validate(valid => {
         if (!valid) {
