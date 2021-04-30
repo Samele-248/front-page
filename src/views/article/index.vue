@@ -108,7 +108,7 @@
                 size="mini"
                 circle
                 type="primary" icon="el-icon-edit"
-                @click="handleEdit(scope.$index, scope.row)"></el-button>
+                @click="$router.push('/publish?id='+ scope.row.id)"></el-button>
               <el-button
                 size="mini"
                 type="danger" icon="el-icon-delete"
@@ -217,10 +217,6 @@ export default {
           message: '取消取消删除'
         })
       })
-    },
-    // 修改
-    handleEdit () {
-      console.log(5555555555)
     }
   },
   watch: {}
