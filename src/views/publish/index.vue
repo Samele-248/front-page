@@ -5,11 +5,11 @@
         <span>面包屑</span>
       <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
     </div>
-    <el-form :model="article" :rules="rules" ref="ruleForm" label-width="60px" class="demo-ruleForm">
+    <el-form :model="article" :rules="rules" ref="publish-form" label-width="70px" class="demo-ruleForm">
       <el-form-item label="标题：" prop="title">
         <el-input v-model="article.title"></el-input>
       </el-form-item>
-      <el-form-item label="内容：">
+      <el-form-item label="内容：" prop="content">
         <el-tiptap v-model= "article.content" height="360" placeholder="请输入文章内容" :extensions="extensions"/>
       </el-form-item>
       <el-form-item label="封面：" prop="cover">
@@ -20,7 +20,7 @@
           <el-radio :label="3">三图</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="频道：">
+      <el-form-item label="频道：" prop="channel_id">
             <el-select v-model="article.channel_id" placeholder="请选择频道">
               <el-option
               v-for="(channel, index) in channels"
@@ -58,6 +58,7 @@ import {
   Image,
   TextColor
 } from 'element-tiptap'
+import { uploadImage } from '@/api/image'
 // import 'element-tiptap/lib/index.css'
 // import 代称 from '地址'
 export default {
@@ -78,7 +79,16 @@ export default {
         new Italic(),
         new Strike(),
         new ListItem(),
-        new Image(),
+        new Image({
+          uploadRequest (file) {
+            const fd = new FormData()
+            fd.append('image', file)
+            return uploadImage(fd).then(res => { // return 返回promise对象
+              console.log(res)
+              return res.data.data.url // 返回最后结果
+            })
+          }
+        }),
         new TextColor(),
         new BulletList(),
         new OrderedList(),
@@ -96,7 +106,27 @@ export default {
         channel_id: null
       },
       channels: [],
-      rules: {}
+      rules: {
+        title: [
+          { required: true, message: '请输入文章标题', trigger: 'blur' },
+          { min: 5, max: 30, message: '长度在 5 到 30 个字符之间', trigger: 'blur' }
+        ],
+        content: [
+          { required: true, message: '请输入文章内容', trigger: 'blur' },
+          {
+            validator (rule, value, callback) {
+              if (value === '<p></p>') {
+                callback(new Error('请输入文章内容'))
+              } else {
+                callback()
+              }
+            }
+          }
+        ],
+        channel_id: [
+          { required: true, message: '请输入文章频道', trigger: 'blur' }
+        ]
+      }
     }
   },
   computed: {},
@@ -117,25 +147,30 @@ export default {
     },
     // 创建-发表
     onPublish (draft) {
-      const articleId = this.$route.query.id
-      if (articleId) { // 修改
-        updataArticle(articleId, this.article, draft).then(res => {
-          console.log(res)
-          this.$message({
-            message: `${draft ? '存入草稿' : '发表'}成功`,
-            type: 'success'
+      this.$refs['publish-form'].validate(valid => {
+        if (!valid) {
+          return
+        }
+        const articleId = this.$route.query.id
+        if (articleId) { // 修改
+          updataArticle(articleId, this.article, draft).then(res => {
+            console.log(res)
+            this.$message({
+              message: `${draft ? '存入草稿' : '发表'}成功`,
+              type: 'success'
+            })
           })
-        })
-      } else { // 创建
-        addArticle(this.article, draft).then(res => {
-          console.log(res)
-          this.$message({
-            message: `${draft ? '存入草稿' : '发表'}成功`,
-            type: 'success'
+        } else { // 创建
+          addArticle(this.article, draft).then(res => {
+            console.log(res)
+            this.$message({
+              message: `${draft ? '存入草稿' : '发表'}成功`,
+              type: 'success'
+            })
           })
-        })
-        this.$router.push('/article')
-      }
+          this.$router.push('/article')
+        }
+      })
     },
     // 修改文章  -- 获取内容
     loadArticle () {
