@@ -84,7 +84,7 @@ export default {
             const fd = new FormData()
             fd.append('image', file)
             return uploadImage(fd).then(res => { // return 返回promise对象
-              console.log(res)
+              // console.log(res)
               return res.data.data.url // 返回最后结果
             })
           }
@@ -140,9 +140,9 @@ export default {
   methods: {
     loadChannels () {
       getArticleChannels().then(({ data: { data } }) => {
-        console.log('频道-获取的值', data)
+        // console.log('频道-获取的值', data)
         this.channels = data.channels
-        console.log('频道', this.channels)
+        // console.log('频道', this.channels)
       })
     },
     // 创建-发表
@@ -154,7 +154,7 @@ export default {
         const articleId = this.$route.query.id
         if (articleId) { // 修改
           updataArticle(articleId, this.article, draft).then(res => {
-            console.log(res)
+            // console.log(res)
             this.$message({
               message: `${draft ? '存入草稿' : '发表'}成功`,
               type: 'success'
@@ -162,7 +162,7 @@ export default {
           })
         } else { // 创建
           addArticle(this.article, draft).then(res => {
-            console.log(res)
+            // console.log(res)
             this.$message({
               message: `${draft ? '存入草稿' : '发表'}成功`,
               type: 'success'
@@ -175,7 +175,7 @@ export default {
     // 修改文章  -- 获取内容
     loadArticle () {
       getArticle(this.$route.query.id).then(({ data: { data } }) => {
-        console.log('点击修改进来的内容', data)
+        // console.log('点击修改进来的内容', data)
         this.article = data
       })
     }

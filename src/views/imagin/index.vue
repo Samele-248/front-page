@@ -101,7 +101,7 @@ export default {
         data.results.forEach(res => { // 向数据里边传一个数据
           res.loading = false
         })
-        console.log('获取图片数据处理后：', data)
+        // console.log('获取图片数据处理后：', data)
         this.image = data.results
         this.totalCount = data.total_count
       })
@@ -115,7 +115,7 @@ export default {
       })
     },
     onPageChange (page) {
-      console.log('第', page, '页')
+      // console.log('第', page, '页')
       this.loadImages(page, false)
     },
     onCollect (img) { // 输入图片信息，包括是否已经被收藏
@@ -128,7 +128,7 @@ export default {
     onDatele (img) {
       img.loading = true // 点击删除，禁用按钮--显示加载中
       deleteImage(img.id).then(res => {
-        console.log('点击删除的返回', res)
+        // console.log('点击删除的返回', res)
         this.loadImages(this.page) // 删除后刷新--回到当前页码 -- 页面
         img.loading = false// 点击删除，禁用按钮--关掉加载
       })

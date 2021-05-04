@@ -41,7 +41,7 @@ export default {
         agree: [
           {
             validator: (rule, value, callback) => {
-              console.log('判断规则', rule)
+              // console.log('判断规则', rule)
               if (value) {
                 callback()
               } else {
@@ -58,7 +58,7 @@ export default {
     login () {
       this.loginLoading = true// 按钮防抖动--请求期间禁用
       loginUser(this.user).then(res => {
-        console.log('点击登陆的结果', res)
+        // console.log('点击登陆的结果', res)
         window.localStorage.setItem('user', JSON.stringify(res.data.data))
         this.$message({
           message: '登陆成功',

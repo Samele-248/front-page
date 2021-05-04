@@ -44,8 +44,7 @@
                   :disabled = "scope.row.statusDisabled"
                   active-color="#13ce66"
                   inactive-color="#ff4949"
-                  active-text="按月付费"
-                  inactive-text="按年付费" @change="onStatusChange( scope.row )">
+                  @change="onStatusChange( scope.row )">
                 </el-switch>
               </template>
             </el-table-column>
@@ -86,12 +85,12 @@ export default {
     // 多少条数据每页
     handleSizeChange (val) {
       this.loadArticles(1)
-      console.log('是啊', val)
+      // console.log('是啊', val)
     },
     // 页码改变，加载指定页码数据
     handleCurrentChange (val) {
       this.loadArticles(val)
-      console.log(`当前页: ${val}`)
+      // console.log(`当前页: ${val}`)
     },
     // 初始化页面
     loadArticles (page) {
@@ -101,7 +100,7 @@ export default {
         page,
         per_page: this.pageSize
       }).then(({ data: { data } }) => {
-        console.log('评论管理', data)
+        // console.log('评论管理', data)
         data.results.forEach(article => {
           article.statusDisabled = false
         })
@@ -111,9 +110,9 @@ export default {
     },
     onStatusChange (article) {
       article.statusDisabled = true
-      console.log('评论状态', article)
+      // console.log('评论状态', article)
       updateCommentStatus(article.id.toString(), article.comment_status).then(res => {
-        console.log('评论状态的返回', res)
+        // console.log('评论状态的返回', res)
         article.statusDisabled = false
         this.$message({
           type: 'success',

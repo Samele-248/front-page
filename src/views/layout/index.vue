@@ -37,6 +37,7 @@
 <script>
 import AppAside from './components/aside'
 import { getUserProfile } from '@/api/user'
+import globalBus from '@/utils/global-bus'
 export default {
   name: 'LayoutIndex',
   components: {
@@ -52,12 +53,17 @@ export default {
   computed: {},
   created () {
     this.loadUserProfile()
+    globalBus.$on('update-user', data => {
+      console.log('穿过的数据', data)
+      this.user.name = data.name
+      this.user.photo = data.photo
+    })
   },
   mounted () {},
   methods: {
     loadUserProfile () {
       getUserProfile().then(res => {
-        console.log('请求用户数据-填取用户信息', res)
+        // console.log('请求用户数据-填取用户信息', res)
         this.user = res.data.data
       })
     },

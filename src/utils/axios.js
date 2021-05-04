@@ -10,7 +10,7 @@ const request = axios.create({
       return JSONbig.parse(data)
       // console.log(JSONbig.parse(data))
     } catch (e) {
-      console.log('打印axios非json数据', e)
+      // console.log('打印axios非json数据', e)
       return data
     }
   }]

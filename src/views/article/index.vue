@@ -165,9 +165,6 @@ export default {
   },
   mounted () {},
   methods: {
-    onSubmit () {
-      console.log('submit!')
-    },
     loadArticles (page = 1) {
       this.loading = true
       getArticles({
@@ -178,7 +175,7 @@ export default {
         begin_pubdate: this.rangeDate ? this.rangeDate[0] : null,
         end_pubdate: this.rangeDate ? this.rangeDate[1] : null
       }).then(res => {
-        console.log('文章内容块', res)
+        // console.log('文章内容块', res)
         const { results, total_count: totalCount } = res.data.data
         this.totalCount = totalCount
         this.articles = results
@@ -188,13 +185,13 @@ export default {
     },
     // 初始化页面
     onCurrentChange (page) {
-      console.log('页码', page)
+      // console.log('页码', page)
       this.loadArticles(page)
     },
     // 初始化页面
     loadChannels () {
       getArticleChannels().then(res => {
-        console.log('频道', res)
+        // console.log('频道', res)
         this.channels = res.data.data.channels
       })
     },
@@ -207,7 +204,7 @@ export default {
       }).then(() => {
         deleteArticle(articleId.toString()).then(res => {
           // 点击删除返回的数据
-          console.log(res)
+          // console.log(res)
           // 删除成功后更新页面--当前页
           this.loadArticles(this.page)
         })

@@ -15,3 +15,19 @@ export const getUserProfile = () => {
     url: '/mp/v1_0/user/profile'
   })
 }
+// 修改用户头像
+export const updateUserPhoto = data => {
+  return axios({
+    method: 'PATCH',
+    url: '/mp/v1_0/user/photo',
+    data
+  })
+}
+// 修改用户信息
+export const updateUserProfile = data => {
+  return axios({
+    method: 'PATCH',
+    url: '/mp/v1_0/user/profile',
+    data
+  })
+}
