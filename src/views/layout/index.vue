@@ -54,7 +54,7 @@ export default {
   created () {
     this.loadUserProfile()
     globalBus.$on('update-user', data => {
-      console.log('穿过的数据', data)
+      // console.log('穿过的数据', data)
       this.user.name = data.name
       this.user.photo = data.photo
     })

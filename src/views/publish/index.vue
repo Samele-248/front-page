@@ -19,6 +19,18 @@
           <el-radio :label="1">单图</el-radio>
           <el-radio :label="3">三图</el-radio>
         </el-radio-group>
+        <template v-if="article.cover.type > 0">
+          <upload-cove
+          v-model="article.cover.images[index]"
+          :key="cover" v-for="(cover, index) in article.cover.type"
+        />
+        <!-- <template v-if="article.cover.type > 0">
+          <upload-cove
+          @update-cover="onUpdate(index, $event)"
+          :cover-image="article.cover.images[index]"
+          :key="cover" v-for="(cover, index) in article.cover.type"
+        /> -->
+        </template>
       </el-form-item>
       <el-form-item label="频道：" prop="channel_id">
             <el-select v-model="article.channel_id" placeholder="请选择频道">
@@ -38,6 +50,7 @@
     </div>
 </template>
 <script>
+import uploadCove from './components/upload-cover'
 import { getArticleChannels, addArticle, getArticle, updataArticle } from '@/api/article'
 import {
   ElementTiptap,
@@ -64,7 +77,8 @@ import { uploadImage } from '@/api/image'
 export default {
   name: 'PublishIndex',
   components: {
-    'el-tiptap': ElementTiptap
+    'el-tiptap': ElementTiptap,
+    'upload-cove': uploadCove
   },
   props: {},
   data () {
@@ -100,7 +114,7 @@ export default {
         title: '',
         content: '',
         cover: {
-          type: 0,
+          type: 1,
           images: []
         },
         channel_id: null
@@ -168,8 +182,8 @@ export default {
               type: 'success'
             })
           })
-          this.$router.push('/article')
         }
+        this.$router.push('/article')
       })
     },
     // 修改文章  -- 获取内容
@@ -179,6 +193,11 @@ export default {
         this.article = data
       })
     }
+    // 子传父  -- 优化前
+    // onUpdate (index, url) {
+    //   console.log('aabbc', index, url)
+    //   this.article.cover.images[index] = url
+    // }
   },
   watch: {}
 }

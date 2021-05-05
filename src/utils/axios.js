@@ -1,6 +1,8 @@
 // 基于axios封装请求模块
 import axios from 'axios'
 import JSONbig from 'json-bigint'
+import router from '@/router'
+import { Message } from 'element-ui'
 const request = axios.create({
   baseURL: 'http://api-toutiao-web.itheima.net', // 请求的继承路径
   // 数据再处理--定义一个后端返回的原始数据的处理
@@ -31,5 +33,27 @@ request.interceptors.request.use(
   function (error) {
     return Promise.reject(error)
   })
+// 响应拦截器
+request.interceptors.response.use(function (response) {
+  // 一定要把响应结果return，否则后续拿不到数据
+  return response
+}, function (error) {
+  const { status } = error.response
+  if (error.response && error.response.status === 401) {
+    window.localStorage.removeItem('user')
+    router.push('/logiin')
+    Message.error('登陆状态无效，请重新登陆')
+  } else if (status === 400) {
+    Message.error('请求参数错误')
+  } else if (status === 403) {
+    Message({
+      type: 'waring',
+      message: '没有操作权限'
+    })
+  } else if (status >= 500) {
+    Message.error('服务端内部异常，请稍后重试')
+  }
+  return Promise.reject(error)
+})
 // 导出请求方法
 export default request

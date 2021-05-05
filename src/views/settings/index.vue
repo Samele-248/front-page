@@ -107,7 +107,7 @@ export default {
       this.updateProfileLoading = true
       const { name, intro, email } = this.user
       updateUserProfile(name, intro, email).then(res => {
-        console.log(res)
+        // console.log(res)
         this.updateProfileLoading = false
         this.$message({
           type: 'success',
@@ -119,7 +119,7 @@ export default {
     loadUser () {
       getUserProfile().then(res => {
         this.user = res.data.data
-        console.log('当前用户信息', res)
+        // console.log('当前用户信息', res)
       })
     },
     onFileChange () {
@@ -160,8 +160,7 @@ export default {
           // this.user.photo = res.data.data.photo // 发请求后获得数据，反应较慢
           this.updatePhotoLoading = false
           globalBus.$emit('update-user', this.user)
-
-          console.log(res)
+          // console.log(res)
         })
       })
     }
